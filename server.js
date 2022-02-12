@@ -1,10 +1,12 @@
 // données transmises en clair
 const http = require('http');
-const dotenv = require('dotenv');
-
-dotenv.config();
 // exportation express
 const app = require ('./app');
+
+// résoudre une erreur inconnue d'une création user depuis le front
+const cors = require('cors');
+app.use(cors())
+
 // normalizePort renvoie un code valide qu'il soit founrit en number ou string
 const normalizePort = val => {
     const port = parseInt(val, 10);
