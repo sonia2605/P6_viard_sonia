@@ -40,7 +40,7 @@ exports.login = (req, res, next) => {
             token: jwt.sign(
               { userId: user._id },
               process.env
-                .JWTPRIVATEKEY /*on pourrait utiliser ici une chaine crypto pour une production*/,
+                .key_Token /*on pourrait utiliser ici une chaine crypto pour une production*/,
               { expiresIn: "24h" }
             ),
           });
