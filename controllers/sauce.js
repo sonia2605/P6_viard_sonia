@@ -58,17 +58,17 @@ exports.updateSauce = (req, res, next) => {
 //suppression d'une sauce
 exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
-    .then((sauce) => {
+    .then(sauce => {
       const fileName = sauce.imageUrl.split("/images/")[1];
       fs.unlink(`images/${fileName}`, () => {
         Sauce.deleteOne({ _id: req.params.id })
           .then(() =>
             res.status(200).json({ message: "sauce supprimée !" })
           )
-          .catch((error) => res.status(400).json({ error }));
+          .catch(error => res.status(400).json({ error }));
       });
     })
-    .catch((error) => res.status(400).json({ error }));
+    .catch(error => res.status(500).json({ error }));
 };
 
 //gestion des likes
@@ -120,7 +120,7 @@ exports.likeSauce = (req, res, next) => {
               .catch((error) => res.status(400).json({ error }));
           }
         })
-        .catch((error) => res.status(400).json({ error }));
+        .catch((error) => res.status(404).json({ error }));
       break;
     //si like=-1 on incrémente l'attribut dislikes de la sauce et on ajoute l'id de l'utilisateur dans le tableau usersDisliked
     case -1:
