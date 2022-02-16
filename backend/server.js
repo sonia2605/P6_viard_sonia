@@ -2,9 +2,6 @@
 const http = require("http");
 // exportation express
 const app = require("./app");
-const dotenv = require('dotenv');
-
-dotenv.config();
 
 // normalizePort renvoie un code valide qu'il soit fournit en number ou string
 const normalizePort = (val) => {

@@ -50,4 +50,4 @@ server.on("listening", () => {
   console.log("Listening on " + bind);
 });
 
-server.listen(port);
+server.listen(process.env.PORT || 3000, () => console.log(`Serveur ouvert sur le bon port : ${process.env.PORT}`));
