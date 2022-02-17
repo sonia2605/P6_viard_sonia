@@ -1,18 +1,19 @@
-const bcrypt = require("bcrypt");
-const User = require("../models/user");
+const bcrypt = require('bcrypt');
+const User = require('../models/user');
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 
 dotenv.config();
 
 // controller d'authentification
-exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10)
-        .then(hash => {
-            const user = new User({
-                email: req.body.email,
-                password: hash
-            });
+exports.signup = (req, res) => {
+  bcrypt
+    .hash(req.body.password, 10)
+    .then((hash) => {
+      const user = new User({
+        email: req.body.email,
+        password: hash,
+      });
       user
         .save()
         .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
@@ -22,12 +23,12 @@ exports.signup = (req, res, next) => {
 };
 
 //controller de connexion
-exports.login = (req, res, next) => {
+exports.login = (req, res) => {
   User.findOne({ email: req.body.email })
-      .then(user => {
-          if (!user) {
-              return res.status(401).json({ error: 'Utilisateur non trouvé !' });
-          }
+    .then((user) => {
+      if (!user) {
+        return res.status(401).json({ error: "Utilisateur non trouvé !" });
+      }
       bcrypt
         .compare(req.body.password, user.password)
         .then((valid) => {
@@ -39,8 +40,8 @@ exports.login = (req, res, next) => {
             token: jwt.sign(
               { userId: user._id },
               process.env
-                .KEY_TOKEN/*on pourrait utiliser ici une chaine crypto pour une production*/,
-              { expiresIn: "24h" }
+                .TOKENSECRET,
+              { expiresIn: "1800s" }
             ),
           });
         })

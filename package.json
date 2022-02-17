@@ -2,19 +2,23 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "nodemon server.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "lint": "eslint ./"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/eslint-parser": "^7.17.0",
+    "eslint": "^8.9.0",
     "nodemon": "^2.0.15"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
     "helmet": "^5.0.2",

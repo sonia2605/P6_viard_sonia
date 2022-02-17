@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 //schéma de donnée pour un utilisateur(User)

@@ -1,21 +1,18 @@
-const Sauce = require("../models/sauce");
+const Sauce = require("../models/Sauce");
 const fs = require("fs");
 
-//renvoi toutes les sauces présentent dans la base de donnée
 exports.getAllSauces = (req, res, next) => {
   Sauce.find()
     .then((sauces) => res.status(200).json(sauces))
     .catch((error) => res.status(404).json({ error }));
 };
 
-//renvoi une  seule sauce de la base de donnée selon l'ID de la sauce
 exports.getOneSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => res.status(200).json(sauce))
     .catch((error) => res.status(404).json({ error }));
 };
 
-//creation d'une sauce par un utilisateur
 exports.createSauce = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id;
@@ -26,16 +23,15 @@ exports.createSauce = (req, res, next) => {
     }`,
     likes: 0,
     dislikes: 0,
-    usersLiked: [],
-    usersDisliked: [],
+    usersLiked: [" "],
+    usersdisLiked: [" "],
   });
   sauce
     .save()
-    .then(() => res.status(201).json({ message: "Sauce enregistrée !" }))
+    .then(() => res.status(201).json({ message: "Sauce enregistrée" }))
     .catch((error) => res.status(400).json({ error }));
 };
 
-//modification d'une sauce
 exports.updateSauce = (req, res, next) => {
   const sauceObject = req.file
     ? {
@@ -54,22 +50,20 @@ exports.updateSauce = (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
-//suppression d'une sauce
 exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
-      const fileName = sauce.imageUrl.split("/images/")[1];
-      fs.unlink(`images/${fileName}`, () => {
+      const filename = sauce.imageUrl.split("/images/")[1];
+      fs.unlink(`images/${filename}`, () => {
         Sauce.deleteOne({ _id: req.params.id })
-          .then(() => res.status(200).json({ message: "sauce supprimée !" }))
+          .then(res.status(200).json({ message: "Sauce supprimée" }))
           .catch((error) => res.status(400).json({ error }));
       });
     })
     .catch((error) => res.status(500).json({ error }));
 };
 
-//gestion des likes
-exports.likeSauce = (req, res, next) => {
+exports.likeDislikeSauce = (req, res, next) => {
   let like = req.body.like;
   let userId = req.body.userId;
   let sauceId = req.params.id;
